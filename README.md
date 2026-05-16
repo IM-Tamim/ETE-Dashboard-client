@@ -3,6 +3,15 @@
 > React + Vite dashboard for the Electronics & Telecommunication Engineering Department. Visualizes student attendance, marks, and academic performance across all series.
 
 ---
+## Links
+
+- Client Live: [Visit](https://ete-dashboard-client.vercel.app/)
+- Client Repository: [GitHub](https://github.com/IM-Tamim/ETE-Dashboard-client)
+
+- Server Live: [Visit](https://ete-dashboard-server.vercel.app/api/health)
+- Server Repository: [GitHub](https://github.com/IM-Tamim/ETE-Dashboard-server)
+
+---
 
 ## Tech Stack
 
