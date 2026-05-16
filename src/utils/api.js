@@ -4,9 +4,23 @@ const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: 30000,
   headers: { "Content-Type": "application/json" },
 });
+
+// ── Retry interceptor (handles cold starts) ───────────────────
+api.interceptors.response.use(
+  (res) => res,
+  async (err) => {
+    const config = err.config;
+    if (!config._retry && (err.code === "ECONNABORTED" || !err.response)) {
+      config._retry = true;
+      await new Promise((r) => setTimeout(r, 3000)); // wait 3s then retry once
+      return api(config);
+    }
+    return Promise.reject(err);
+  }
+);
 
 // ── Students ──────────────────────────────────────────────────
 export const fetchStudents         = (series) =>
