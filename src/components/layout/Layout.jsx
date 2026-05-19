@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Menu, Sun, Moon } from "lucide-react";
+import { Menu, Sun, Moon, ChevronDown } from "lucide-react";
 import Sidebar from "./Sidebar";
 import { useSeriesFilter } from "../../context/SeriesContext";
 import { useTheme } from "../../context/ThemeContext";
@@ -47,26 +47,44 @@ export default function Layout({ children }) {
 
           <div className="header-right">
             {showFilter && (
-              <div className="series-filter-wrap">
-                <span className="series-filter-label">Series:</span>
-                <div className="series-pills-row">
-                  <button
-                    onClick={() => setSeriesFilter("All")}
-                    className={"series-filter-btn" + (seriesFilter === "All" ? " active" : "")}
+              <>
+                <div className="series-filter-mobile" style={{ position: "relative" }}>
+                  <select
+                    value={seriesFilter}
+                    onChange={(e) => setSeriesFilter(e.target.value)}
+                    style={{
+                      appearance: "none",
+                      WebkitAppearance: "none",
+                      background: "var(--ete-surface)",
+                      border: "1px solid var(--ete-border)",
+                      color: "var(--ete-primary)",
+                      borderRadius: 8,
+                      padding: "4px 28px 4px 10px",
+                      fontSize: "0.72rem",
+                      fontWeight: 700,
+                      fontFamily: "'DM Mono', monospace",
+                      cursor: "pointer",
+                      outline: "none",
+                    }}
                   >
-                    All
-                  </button>
-                  {SERIES.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => setSeriesFilter(s)}
-                      className={"series-filter-btn s" + s + (seriesFilter === s ? " active" : "")}
-                    >
-                      {s}
-                    </button>
-                  ))}
+                    <option value="All">All Series</option>
+                    {SERIES.map((s) => (
+                      <option key={s} value={s}>{s}-Series</option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    size={12}
+                    style={{
+                      position: "absolute",
+                      right: 8,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      color: "var(--ete-primary)",
+                      pointerEvents: "none",
+                    }}
+                  />
                 </div>
-              </div>
+              </>
             )}
 
             <div className="flex items-center gap-2">
