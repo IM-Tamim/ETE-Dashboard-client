@@ -122,28 +122,6 @@ export default function Reports() {
         </div>
       )}
 
-      {/* Header bar */}
-      <div className="glow-card" style={{ padding: "16px 22px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-        <div>
-          <div style={{ fontWeight: 700, fontSize: "0.95rem" }}>
-            {isSingle ? `${seriesFilter}-Series Report` : "Full Department Report"}
-          </div>
-          <div style={{ fontSize: "0.72rem", color: "var(--ete-muted)" }}>
-            ETE Department · {isSingle ? `${seriesFilter}-Series · ${SERIES_SEMESTER[seriesFilter]} Semester` : "All Series · Current Session"}
-          </div>
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          {["CSV", "PDF", "Excel"].map((t) => (
-            <button key={t}
-              onClick={() => alert(`Export as ${t} — connect backend to implement`)}
-              className="btn btn-sm"
-              style={{ background: "var(--ete-surface)", color: "var(--ete-text)", border: "1px solid var(--ete-border)", borderRadius: 8, fontSize: "0.78rem" }}>
-              Export {t}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Summary stat cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))", gap: 14 }}>
         {[
@@ -199,7 +177,7 @@ export default function Reports() {
           {isSingle ? `${seriesFilter}-Series Subject Codes` : "Series Breakdown"}
         </div>
         <div style={{ overflowX: "auto" }}>
-          <table className="ete-table" style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table className="ete-table report-table" style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr><th>Series</th><th>Semester</th><th>Students</th><th>Subjects</th><th>Note</th></tr>
             </thead>
@@ -208,7 +186,7 @@ export default function Reports() {
                 const row = (d.seriesDistribution || []).find((r) => r.series === s);
                 return (
                   <tr key={s}>
-                    <td><span className={"series-pill s" + s}>{s}-Series</span></td>
+                    <td><span className={"series-pill s" + s}>{s}</span></td>
                     <td>{SERIES_SEMESTER[s]}</td>
                     <td className="mono">{row?.count ?? "—"}</td>
                     <td style={{ fontSize: "0.75rem", color: "var(--ete-muted)" }}>

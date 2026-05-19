@@ -9,12 +9,12 @@ export function LoadingSpinner({ text = "Loading data..." }) {
 
 export function ErrorBox({ message, onRetry }) {
   return (
-    <div className="glow-card" style={{ padding: "24px", textAlign: "center", borderColor: "rgba(255,107,53,0.3)" }}>
+    <div className="glow-card" style={{ padding: "24px", textAlign: "center", borderColor: "var(--ete-accent)" }}>
       <div style={{ fontSize: "1.8rem", marginBottom: 8 }}>⚠️</div>
-      <div style={{ color: "#ff6b35", fontWeight: 600, marginBottom: 6 }}>Failed to load data</div>
+      <div style={{ color: "var(--ete-accent)", fontWeight: 600, marginBottom: 6 }}>Failed to load data</div>
       <div style={{ fontSize: "0.8rem", color: "var(--ete-muted)", marginBottom: 16 }}>{message}</div>
       {onRetry && (
-        <button onClick={onRetry} className="btn btn-sm" style={{ background: "rgba(255,107,53,0.15)", color: "#ff6b35", border: "1px solid rgba(255,107,53,0.3)", borderRadius: 8 }}>
+        <button onClick={onRetry} className="btn btn-sm" style={{ background: "transparent", color: "var(--ete-accent)", border: "1px solid var(--ete-accent)", borderRadius: 8 }}>
           Retry
         </button>
       )}

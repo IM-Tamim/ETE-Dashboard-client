@@ -15,8 +15,6 @@ const nav = [
 export default function Sidebar({ onClose }) {
   const { seriesFilter } = useSeriesFilter();
   const { pathname } = useLocation();
-
-  // On /students page there's no global filter — show no star
   const noFilterPage = pathname === "/students";
   const activeSeries = noFilterPage ? null : seriesFilter;
 
@@ -26,15 +24,18 @@ export default function Sidebar({ onClose }) {
       <div style={{ padding: "20px 16px 0 16px", flexShrink: 0 }}>
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
-            <div style={{ background: "linear-gradient(135deg,#00c9a7,#4facfe)", borderRadius: 10, width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <div style={{
+              background: "linear-gradient(135deg, var(--ete-primary), var(--ete-info))",
+              borderRadius: 10, width: 34, height: 34,
+              display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            }}>
               <Radio size={18} color="#fff" />
             </div>
             <div>
-              <div style={{ fontSize: "0.95rem", fontWeight: 800, lineHeight: 1, color: "#e2e8f0" }}>ETE Dept</div>
+              <div style={{ fontSize: "0.95rem", fontWeight: 800, lineHeight: 1, color: "var(--ete-text)" }}>ETE Dept</div>
               <div style={{ fontSize: "0.62rem", color: "var(--ete-primary)", letterSpacing: "0.12em", fontWeight: 600 }}>DASHBOARD</div>
             </div>
           </div>
-          {/* Close button for mobile */}
           {onClose && (
             <button onClick={onClose} className="sidebar-close-btn" aria-label="Close sidebar">
               <X size={18} />
@@ -64,7 +65,7 @@ export default function Sidebar({ onClose }) {
 
       <div style={{ flex: 1 }} />
 
-      {/* Series quick-ref — star follows active filter */}
+      {/* Series overview */}
       <div style={{ margin: "0 16px", borderTop: "1px solid var(--ete-border)", paddingTop: 14, paddingBottom: 4, flexShrink: 0 }}>
         <div style={{ fontSize: "0.6rem", color: "var(--ete-muted)", letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 600, marginBottom: 10 }}>
           Series Overview
@@ -91,7 +92,7 @@ export default function Sidebar({ onClose }) {
           <span className="pulse-dot" style={{ width: 6, height: 6 }} />
           <span style={{ color: "var(--ete-primary)", fontWeight: 600 }}>System Online</span>
         </div>
-        ETE Dashboard v3.0
+        ETE Dashboard
       </div>
     </aside>
   );

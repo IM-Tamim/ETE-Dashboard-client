@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, Sun, Moon } from "lucide-react";
 import Sidebar from "./Sidebar";
 import { useSeriesFilter } from "../../context/SeriesContext";
+import { useTheme } from "../../context/ThemeContext";
 import { SERIES } from "../../utils/helpers";
 
 const pageMeta = {
@@ -19,6 +20,7 @@ export default function Layout({ children }) {
   const { pathname } = useLocation();
   const meta = pageMeta[pathname] || { title: "ETE Dashboard", desc: "" };
   const { seriesFilter, setSeriesFilter } = useSeriesFilter();
+  const { theme, toggleTheme } = useTheme();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const showFilter = !NO_FILTER_PAGES.includes(pathname);
 
@@ -71,7 +73,18 @@ export default function Layout({ children }) {
               <span className="pulse-dot" />
               <span style={{ fontSize: "0.72rem", color: "var(--ete-primary)", fontWeight: 600 }}>Live</span>
             </div>
-            <div className="text-red-400 font-bold text-2xl">IMT</div>
+
+            {/* Theme toggle */}
+            <button
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            <div className="text-error font-bold text-2xl">IMT</div>
           </div>
         </header>
 

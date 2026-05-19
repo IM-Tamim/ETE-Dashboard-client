@@ -3,13 +3,15 @@
 > React + Vite dashboard for the Electronics & Telecommunication Engineering Department. Visualizes student attendance, marks, and academic performance across all series.
 
 ---
+
 ## Links
 
-- Client Live: [Visit](https://ete-dashboard-client.vercel.app/)
-- Client Repository: [GitHub](https://github.com/IM-Tamim/ETE-Dashboard-client)
-
-- Server Live: [Visit](https://ete-dashboard-server.vercel.app/api/health)
-- Server Repository: [GitHub](https://github.com/IM-Tamim/ETE-Dashboard-server)
+| | |
+|---|---|
+| 🌐 Client Live | [ete-dashboard-client.vercel.app](https://ete-dashboard-client.vercel.app/) |
+| 📦 Client Repository | [github.com/IM-Tamim/ETE-Dashboard-client](https://github.com/IM-Tamim/ETE-Dashboard-client) |
+| 🚀 Server Live | [ete-dashboard-server.onrender.com/api/health](https://ete-dashboard-server.onrender.com/api/health) |
+| 📦 Server Repository | [github.com/IM-Tamim/ETE-Dashboard-server](https://github.com/IM-Tamim/ETE-Dashboard-server) |
 
 ---
 
@@ -20,7 +22,7 @@
 | React 18 | UI framework |
 | Vite 7 | Build tool & dev server |
 | React Router DOM | Client-side routing |
-| Tailwind CSS + DaisyUI | Styling |
+| Tailwind CSS + DaisyUI | Styling & theming |
 | Chart.js | Data visualization |
 | Axios | HTTP client |
 | Lucide React | Icons |
@@ -34,16 +36,17 @@ src/
 ├── components/
 │   ├── charts/
 │   │   ├── Charts.jsx          # All chart components
-│   │   └── ChartWrapper.jsx    # Chart.js wrapper
+│   │   └── ChartWrapper.jsx    # Chart.js wrapper (theme-aware)
 │   ├── layout/
-│   │   ├── Layout.jsx          # Root layout + global series filter
-│   │   ├── Sidebar.jsx         # Navigation sidebar
+│   │   ├── Layout.jsx          # Root layout + global series filter + theme toggle
+│   │   ├── Sidebar.jsx         # Navigation sidebar with focus star
 │   │   └── Header.jsx
 │   └── ui/
 │       ├── StatCard.jsx        # Stat summary cards
 │       └── States.jsx          # Loading / empty states
 ├── context/
-│   └── SeriesContext.jsx       # Global series filter state
+│   ├── SeriesContext.jsx       # Global series filter state
+│   └── ThemeContext.jsx        # Global dark / light theme state
 ├── hooks/
 │   └── useFetch.js
 ├── pages/
@@ -53,11 +56,11 @@ src/
 │   ├── Students.jsx            # Student registry
 │   └── Reports.jsx             # Full department reports
 ├── utils/
-│   ├── api.js                  # All Axios API calls
+│   ├── api.js                  # All Axios API calls + retry interceptor
 │   └── helpers.js              # Constants, formatters, grade logic
 ├── App.jsx
 ├── main.jsx
-└── index.css
+└── index.css                   # DaisyUI theme vars (dark + light)
 ```
 
 ---
@@ -94,14 +97,14 @@ src/
 
 - Node.js 18+
 - npm 9+
-- Backend server running (see backend README)
+- Backend server running (see [server repo](https://github.com/IM-Tamim/ETE-Dashboard-server))
 
 ### Installation
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/ete-dashboard-frontend.git
-cd ete-dashboard-frontend
+git clone https://github.com/IM-Tamim/ETE-Dashboard-client.git
+cd ETE-Dashboard-client
 
 # Install dependencies
 npm install react react-dom react-router-dom axios chart.js lucide-react
@@ -139,7 +142,7 @@ npm run preview
 2. Import repo in [vercel.com](https://vercel.com)
 3. Add environment variable in Vercel dashboard:
    ```
-   VITE_API_URL = https://your-backend.vercel.app/api
+   VITE_API_URL = https://ete-dashboard-server.onrender.com/api
    ```
 4. Add `vercel.json` in project root for React Router support:
    ```json
@@ -153,12 +156,30 @@ npm run preview
 
 ## Key Features
 
-- **Global Series Filter** — header pill buttons filter all pages simultaneously (Dashboard, Attendance, Marks, Reports)
-- **Sidebar Focus Star** — ★ dynamically highlights the currently selected series
-- **Expandable Table Rows** — click any student row to see full subject breakdown with charts
-- **Search by Roll/Name** — instant client-side search inside Attendance and Marks tables without re-rendering charts
-- **Offline Fallback** — all pages fall back to demo data if the backend is unreachable, with a visible warning banner
-- **Fully Responsive** — sidebar collapses to a slide-in drawer on mobile (≤900px)
+- **Global Series Filter** — header pill buttons (`All`, `20`–`24`) filter all pages simultaneously; Dashboard, Attendance, Marks, and Reports all respond to the selection
+- **Sidebar Focus Star** — ★ dynamically highlights the currently selected series; no star shown when "All" is selected or on the Students page
+- **Dark / Light Theme Toggle** — Sun/Moon button in the header switches between dark (default) and light palettes; preference is saved in `localStorage`
+- **DaisyUI Theming** — all colors use CSS variables, zero hardcoded hex values in components; Chart.js charts read theme vars dynamically and adapt on toggle
+- **Expandable Table Rows** — click any student row in Attendance or Marks to expand a full subject breakdown with charts
+- **Search by Roll / Name** — instant client-side search inside Attendance and Marks tables; search state is isolated so charts never re-render on keystroke
+- **Offline Fallback** — all pages fall back to series-specific demo data if the backend is unreachable, with a visible ⚠️ warning banner
+- **Retry Interceptor** — Axios automatically retries once after a 3-second wait on timeout or no-response errors, handling cold starts on free-tier hosting
+- **Fully Responsive** — sidebar collapses to a slide-in drawer on mobile (≤900px); two-column grids stack to one column; header adapts on small screens
+
+---
+
+## Theme System
+
+The app supports **dark** (default) and **light** themes via DaisyUI's `data-theme` attribute system.
+
+All UI colors are defined as CSS custom properties in `index.css`:
+
+```css
+[data-theme="dark"]  { --ete-primary: #00c9a7; --ete-bg: #060f1e; ... }
+[data-theme="light"] { --ete-primary: #009e83; --ete-bg: #f0f4f8; ... }
+```
+
+Toggle is persisted in `localStorage` under the key `ete-theme`.
 
 ---
 
@@ -172,4 +193,4 @@ npm run preview
 
 ## License
 
-IMT
+IMT — [IM-Tamim](https://github.com/IM-Tamim)

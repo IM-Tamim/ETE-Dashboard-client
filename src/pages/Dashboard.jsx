@@ -165,7 +165,7 @@ export default function Dashboard() {
             Series Summary
           </div>
           <div style={{ overflowX: "auto" }}>
-            <table className="ete-table" style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table className="ete-table report-table" style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr><th>Series</th><th>Semester</th><th>Students</th><th>Focus</th></tr>
               </thead>
@@ -174,7 +174,7 @@ export default function Dashboard() {
                   const row = (d.seriesDistribution || []).find((r) => r.series === s);
                   return (
                     <tr key={s}>
-                      <td><span className={seriesPillClass(s)}>{s}-Series</span></td>
+                      <td><span className={"series-pill s" + s}>{s}</span></td>
                       <td>{SERIES_SEMESTER[s]}</td>
                       <td className="mono">{row?.count ?? "—"}</td>
                       <td>
